@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détail Actualité - SAMA</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html"><img src="images/logo-sama.png" alt="SAMA Auvergne" style="height: 60px;"></a>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="association.html">L'Association</a></li>
+                    <li><a href="formations.html">Formations</a></li>
+                    <li><a href="actualites.html" class="active">Actualités</a></li>
+                    <li><a href="contact.html" class="btn btn-primary">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main id="main-content">
+        <section class="container mt-4">
+            <a href="actualites.html" class="back-link">&larr; Retour aux actualités</a>
+
+            <div id="news-detail-container">
+                <p>Chargement...</p>
+            </div>
+        </section>
+    </main>
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2026 SAMA - Services Accompagnement Migrants Auvergne</p>
+            <nav class="footer-nav">
+                <a href="contact.html">Contact</a> |
+                <a href="admin">Espace Admin (PHP)</a>
+            </nav>
+        </div>
+    </footer>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            if (id) {
+                fetch('index.php?url=api/news/' + id)
+                    .then(res => res.json())
+                    .then(news => {
+                        if (news.error) {
+                            document.getElementById('news-detail-container').innerHTML = '<p>Actualité non trouvée.</p>';
+                            return;
+                        }
+
+                        const date = new Date(news.published_at).toLocaleDateString('fr-FR');
+                        let imageHtml = '';
+                        if (news.image_url) {
+                            imageHtml = `
+                            <div class="main-image mb-4">
+                                 <img src="${news.image_url}" alt="Image actualité" style="max-width: 100%; height: auto; border-radius: 8px;" loading="lazy">
+                            </div>
+                        `;
+                        }
+
+                        const html = `
+                         <article class="news-detail mt-4">
+                            <h1>${news.title}</h1>
+                            <p class="date"><small>Publié le ${date}</small></p>
+                            
+                            ${imageHtml}
+                            
+                            <div class="content">
+                                ${news.content.replace(/\n/g, '<br>')}
+                            </div>
+                        </article>
+                    `;
+                        document.getElementById('news-detail-container').innerHTML = html;
+                        document.title = news.title + " - SAMA";
+                    })
+                    .catch(err => console.error(err));
+            } else {
+                document.getElementById('news-detail-container').innerHTML = '<p>Identifiant manquant.</p>';
+            }
+        });
+    </script>
+</body>
+
+</html>

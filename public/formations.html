@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formations et Ateliers - SAMA</title>
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html"><img src="images/logo-sama.png" alt="SAMA Auvergne" style="height: 60px;"></a>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="association.html">L'Association</a></li>
+                    <li><a href="formations.html" class="active">Formations</a></li>
+                    <li><a href="actualites.html">Actualités</a></li>
+                    <li><a href="contact.html" class="btn btn-primary">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main id="main-content">
+        <section class="container mt-4">
+            <h1>Formations et Ateliers</h1>
+            <p class="lead">Découvrez nos programmes d'apprentissage et d'insertion.</p>
+            <p>SAMA est un organisme de formation certifié qui propose des ateliers de français, de numérique, de
+                logement, d’emploi et de mobilité pour les personnes migrantes à Clermont‑Ferrand.<br>
+                Utilisez les filtres ci-dessous pour trouver la formation la plus adaptée à votre profil.</p>
+
+            <!-- Filters -->
+            <div class="filters mb-4" id="filters-container" role="group" aria-label="Filtres de catégories">
+                <button onclick="loadWorkshops()" class="btn btn-primary btn-sm" data-id="all"
+                    aria-pressed="true">Tout</button>
+                <!-- populated by JS -->
+            </div>
+
+            <div class="card-grid" id="workshops-container">
+                <p>Chargement des formations...</p>
+            </div>
+        </section>
+    </main>
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2026 SAMA - Services Accompagnement Migrants Auvergne</p>
+            <nav class="footer-nav">
+                <a href="contact.html">Contact</a> |
+                <a href="admin">Espace Admin (PHP)</a>
+            </nav>
+        </div>
+    </footer>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCategories();
+            loadWorkshops();
+        });
+
+        function loadCategories() {
+            const cats = [
+                { id: 1, name: 'Apprentissage du Français' },
+                { id: 2, name: 'Insertion Sociale' },
+                { id: 3, name: 'Insertion Professionnelle' },
+                { id: 4, name: 'Médiation Interculturelle' }
+            ];
+
+            const container = document.getElementById('filters-container');
+            cats.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = 'btn btn-secondary btn-sm';
+                btn.style.marginRight = '5px';
+                btn.style.marginTop = '5px'; // Better mobile spacing
+                btn.innerText = cat.name;
+                btn.setAttribute('data-id', cat.id);
+                btn.setAttribute('aria-pressed', 'false');
+                btn.onclick = () => loadWorkshops(cat.id);
+                container.appendChild(btn);
+            });
+        }
+
+        function loadWorkshops(categoryId = null) {
+            let url = 'index.php?url=api/workshops';
+            if (categoryId) {
+                url += '&category=' + categoryId;
+            }
+
+            // Update buttons state (Visual & ARIA)
+            const allBtns = document.querySelectorAll('#filters-container .btn');
+            allBtns.forEach(btn => {
+                const btnId = btn.getAttribute('data-id');
+                // Check if this button matches current category (or 'all' if null)
+                const isActive = (categoryId == null && btnId === 'all') || (btnId == categoryId);
+
+                if (isActive) {
+                    btn.classList.remove('btn-secondary');
+                    btn.classList.add('btn-primary');
+                    btn.setAttribute('aria-pressed', 'true');
+                } else {
+                    btn.classList.remove('btn-primary');
+                    btn.classList.add('btn-secondary');
+                    btn.setAttribute('aria-pressed', 'false');
+                }
+            });
+
+            fetch(url)
+                .then(res => res.json())
+                .then(data => {
+                    const container = document.getElementById('workshops-container');
+                    container.innerHTML = '';
+                    if (data.length === 0) {
+                        container.innerHTML = '<p>Aucune formation trouvée.</p>';
+                        return;
+                    }
+
+                    data.forEach(workshop => {
+                        const article = document.createElement('article');
+                        article.className = 'card';
+
+                        // Truncate description to ~160 chars
+                        let desc = workshop.description || '';
+                        if (desc.length > 160) {
+                            desc = desc.substring(0, 160).trim() + '...';
+                        }
+
+                        article.innerHTML = `
+                        <div class="card-body">
+                            <span class="badge mb-2">${workshop.category_name || 'Formation'}</span>
+                            <h2 class="card-title">${workshop.title}</h2>
+                            <p class="card-text">${desc}</p>
+                            <a href="formation-detail.html?id=${workshop.id}" class="btn btn-secondary btn-sm" aria-label="En savoir plus sur ${workshop.title}">En savoir plus</a>
+                        </div>
+                    `;
+                        container.appendChild(article);
+                    });
+                })
+                .catch(err => console.error(err));
+        }
+    </script>
+</body>
+
+</html>

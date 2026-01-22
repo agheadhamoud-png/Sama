@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détail Formation - SAMA</title>
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html"><img src="images/logo-sama.png" alt="SAMA Auvergne" style="height: 60px;"></a>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="association.html">L'Association</a></li>
+                    <li><a href="formations.html" class="active">Formations</a></li>
+                    <li><a href="partenaires.html">Partenaires</a></li>
+                    <li><a href="actualites.html">Actualités</a></li>
+                    <li><a href="contact.html" class="btn btn-primary">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main id="main-content">
+        <section class="container mt-4">
+            <a href="formations.html" class="back-link">&larr; Retour aux formations</a>
+
+            <div id="detail-container">
+                <p>Chargement...</p>
+            </div>
+        </section>
+    </main>
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2026 SAMA - Services Accompagnement Migrants Auvergne</p>
+            <nav class="footer-nav">
+                <a href="contact.html">Contact</a> |
+                <a href="admin">Espace Admin (PHP)</a>
+            </nav>
+        </div>
+    </footer>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            if (id) {
+                fetch('index.php?url=api/workshops/' + id)
+                    .then(res => res.json())
+                    .then(workshop => {
+                        if (workshop.error) {
+                            document.getElementById('detail-container').innerHTML = '<p>Formation non trouvée.</p>';
+                            return;
+                        }
+
+                        const html = `
+                         <article class="detail-view mt-4">
+                            <span class="badge-lg">${workshop.category_name || 'Formation'}</span>
+                            <h1>${workshop.title}</h1>
+                            
+                            <div class="grid-layout">
+                                <div class="main-content">
+                                    <h3>Description</h3>
+                                    <p>${workshop.description.replace(/\n/g, '<br>')}</p>
+                                    
+                                    <h3>Objectifs</h3>
+                                    <p>${workshop.objectives.replace(/\n/g, '<br>')}</p>
+        
+                                    <h3>Public Cible</h3>
+                                    <p>${workshop.target_audience.replace(/\n/g, '<br>')}</p>
+                                </div>
+                                
+                                <aside class="sidebar">
+                                    <div class="info-box">
+                                        <h3>Infos Pratiques</h3>
+                                        <ul>
+                                            <li><strong>Horaire:</strong> ${workshop.schedule}</li>
+                                            <li><strong>Lieu:</strong> ${workshop.location}</li>
+                                            <li><strong>Contact:</strong> ${workshop.contact_info}</li>
+                                        </ul>
+                                        <a href="contact.html?subject=inscription&formation=${encodeURIComponent(workshop.title)}" class="btn btn-primary full-width">S'inscrire / Contacter</a>
+                                    </div>
+                                </aside>
+                            </div>
+                        </article>
+                    `;
+                        document.getElementById('detail-container').innerHTML = html;
+                        // Dynamically set page title
+                        document.title = workshop.title + " - SAMA";
+                    })
+                    .catch(err => console.error(err));
+            } else {
+                document.getElementById('detail-container').innerHTML = '<p>Identifiant manquant.</p>';
+            }
+        });
+    </script>
+</body>
+
+</html>

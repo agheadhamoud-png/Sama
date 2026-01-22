@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualités - SAMA</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html"><img src="images/logo-sama.png" alt="SAMA Auvergne" style="height: 60px;"></a>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="association.html">L'Association</a></li>
+                    <li><a href="formations.html">Formations</a></li>
+                    <li><a href="partenaires.html">Partenaires</a></li>
+                    <li><a href="actualites.html" class="active">Actualités</a></li>
+                    <li><a href="contact.html" class="btn btn-primary">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main id="main-content">
+        <section class="container mt-4">
+            <h1>Nos Actualités</h1>
+            <p class="lead">Retrouvez toutes les dernières nouvelles de l'association.</p>
+
+            <div id="news-container" class="mt-4">
+                <p>Chargement des actualités...</p>
+            </div>
+        </section>
+    </main>
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2026 SAMA - Services Accompagnement Migrants Auvergne</p>
+            <nav class="footer-nav">
+                <a href="contact.html">Contact</a> |
+                <a href="partenaires.html">Partenaires</a> |
+                <a href="admin">Espace Admin (PHP)</a>
+            </nav>
+        </div>
+    </footer>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('index.php?url=api/news')
+                .then(res => res.json())
+                .then(data => {
+                    const container = document.getElementById('news-container');
+                    container.innerHTML = '';
+                    if (data.length === 0) {
+                        container.innerHTML = '<p>Aucune actualité pour le moment.</p>';
+                        return;
+                    }
+
+                    data.forEach(item => {
+                        const date = new Date(item.published_at).toLocaleDateString('fr-FR');
+                        // Truncate content
+                        let excerpt = item.content ? item.content.substring(0, 200) + '...' : '';
+
+                        let imageHtml = '';
+                        if (item.image_url) {
+                            imageHtml = `<div class="news-image" style="flex:0 0 200px;"><img src="${item.image_url}" alt="${item.title}" style="width:100%; border-radius:4px;" loading="lazy"></div>`;
+                        }
+
+                        const article = document.createElement('article');
+                        article.className = 'news-item card p-4 mb-4';
+                        // Using flex layout from css 'news-item'
+                        article.innerHTML = `
+                            ${imageHtml}
+                            <div class="news-content">
+                                <h2>${item.title}</h2>
+                                <p class="text-muted"><small>Publié le ${date}</small></p>
+                                <p>${excerpt}</p>
+                                <a href="actualite-detail.html?id=${item.id}" class="read-more">Lire la suite &rarr;</a>
+                            </div>
+                        `;
+                        container.appendChild(article);
+                    });
+                })
+                .catch(err => console.error(err));
+        });
+    </script>
+</body>
+
+</html>

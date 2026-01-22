@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qui sommes-nous ? - SAMA</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Specific styles for this page */
+        .internal-nav {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .internal-nav a {
+            padding: 0.5rem 1rem;
+            background-color: var(--light-grey);
+            border-radius: 20px;
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .internal-nav a:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .team-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .team-card h3 {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-card .role {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-card .diploma {
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+        }
+
+        .pedagogy-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .pedagogy-item {
+            background: var(--light-grey);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .pedagogy-item h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stats-box {
+            background: var(--primary-color);
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stats-box h3 {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 0;
+        }
+
+        .stats-box p {
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .split-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .split-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html"><img src="images/logo-sama.png" alt="SAMA Auvergne" style="height: 60px;"></a>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="association.html" class="active">L'Association</a></li>
+                    <li><a href="formations.html">Formations</a></li>
+                    <li><a href="partenaires.html">Partenaires</a></li>
+                    <li><a href="actualites.html">Actualités</a></li>
+                    <li><a href="contact.html" class="btn btn-primary">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <!-- Main Intro -->
+        <section class="container mt-4">
+            <h1>Qui sommes-nous ?</h1>
+            <p class="lead">SAMA (Services Accompagnement Migrants Auvergne) est une association loi 1901 et un
+                organisme de formation certifié Qualiopi, dédié à l'insertion sociale et professionnelle des migrants à
+                Clermont-Ferrand et son agglomération.</p>
+
+            <!-- Internal Nav -->
+            <nav class="internal-nav">
+                <a href="#association">L'Association</a>
+                <a href="#equipe">Notre équipe</a>
+                <a href="#demarche">Notre démarche pédagogique</a>
+            </nav>
+        </section>
+
+        <!-- Section: L'Association -->
+        <section id="association" class="container mt-4 mb-4">
+            <div class="split-layout">
+                <div class="content">
+                    <h2>L'Association</h2>
+                    <p>Créée en 2010, <strong>SAMA</strong> est née de la volonté d'agir concrètement contre les
+                        facteurs d'exclusion liés à la non-maîtrise de la langue française. Devenue organisme de
+                        formation déclaré en 2012 et certifié <strong>Qualiopi</strong>, l'association est fortement
+                        ancrée dans les quartiers prioritaires de Clermont-Ferrand.</p>
+
+                    <p>Nos actions s'articulent autour de trois grands domaines :</p>
+                    <ul>
+                        <li><strong>Formation linguistique et interculturelle :</strong> Apprentissage du français
+                            langue étrangère (FLE), alphabétisation et compréhension des codes culturels.</li>
+                        <li><strong>Intégration citoyenne :</strong> Accompagnement vers l'autonomie dans les démarches
+                            administratives, le logement et la santé.</li>
+                        <li><strong>Vie professionnelle et emploi :</strong> Préparation à l'emploi, techniques de
+                            recherche (CV, entretien) et compréhension du monde du travail.</li>
+                    </ul>
+                </div>
+                <aside class="stats">
+                    <div class="stats-box">
+                        <h3>+500</h3>
+                        <p>Personnes formées par an</p>
+
+                        <h3>50+</h3>
+                        <p>Nationalités accueillies</p>
+
+                        <h3>25</h3>
+                        <p>Groupes de niveau différents</p>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <!-- Section: Notre Équipe -->
+        <section id="equipe" class="container mt-4 mb-4"
+            style="background-color: var(--light-grey); padding: 2rem; border-radius: 8px;">
+            <h2>Une équipe de professionnels engagés</h2>
+            <p class="mb-4">Notre équipe pluridisciplinaire est composée de formateurs diplômés en FLE/FOS, de
+                professionnels de la médiation interculturelle, d'intervenants socioculturels, ainsi que de bénévoles
+                engagés qui enrichissent notre action.</p>
+
+            <div class="team-grid">
+                <!-- Membre 1 -->
+                <article class="team-card">
+                    <!-- <img src="images/placeholder-team.jpg" alt="Photo de Sophie Martin" style="border-radius: 50%; width: 80px; height: 80px; margin-bottom: 1rem;"> -->
+                    <h3>Sophie Martin</h3>
+                    <span class="role">Coordonnatrice Pédagogique</span>
+                    <span class="diploma">Master Didactique des Langues (FLE)</span>
+                </article>
+
+                <!-- Membre 2 -->
+                <article class="team-card">
+                    <h3>Amine Benali</h3>
+                    <span class="role">Formateur Référent Insertion</span>
+                    <span class="diploma">Titre Pro. Formateur d'Adultes</span>
+                </article>
+
+                <!-- Membre 3 -->
+                <article class="team-card">
+                    <h3>Claire Dubois</h3>
+                    <span class="role">Médiatrice Interculturelle</span>
+                    <span class="diploma">Master Sociologie / Interculturalité</span>
+                </article>
+
+                <!-- Membre 4 -->
+                <article class="team-card">
+                    <h3>Jean Dupont</h3>
+                    <span class="role">Formateur Numérique</span>
+                    <span class="diploma">Licence Sciences de l'Éducation</span>
+                </article>
+            </div>
+        </section>
+
+        <!-- Section: Démarche Pédagogique -->
+        <section id="demarche" class="container mt-4 mb-4">
+            <h2>Notre démarche pédagogique</h2>
+            <p>Nous plaçons l'apprenant au cœur de son parcours, en valorisant ses acquis et ses potentiels.</p>
+
+            <div class="pedagogy-features">
+                <div class="pedagogy-item">
+                    <h3>🔍 Pédagogie Active</h3>
+                    <p>L’apprenant est acteur de ses apprentissages. Nous privilégions les mises en situation, les jeux
+                        de rôles et les sorties terrain pour apprendre en faisant.</p>
+                </div>
+
+                <div class="pedagogy-item">
+                    <h3>🎯 Individualisation</h3>
+                    <p>Chaque parcours commence par un entretien et un test de positionnement. Nous adaptons nos
+                        contenus aux projets et aux besoins spécifiques de chacun (différenciation).</p>
+                </div>
+
+                <div class="pedagogy-item">
+                    <h3>🏙️ Ancrage Réel</h3>
+                    <p>Les apprentissages sont directement liés à la vie quotidienne : remplir un formulaire, comprendre
+                        un bail, passer un entretien d'embauche, utiliser un guichet automatique.</p>
+                </div>
+
+                <div class="pedagogy-item">
+                    <h3>📚 Savoirs Globaux</h3>
+                    <p>Nous travaillons simultanément sur les trois dimensions de la compétence : le Savoir
+                        (connaissances), le Savoir-faire (compétences techniques) et le Savoir-être (codes sociaux).</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2026 SAMA - Services Accompagnement Migrants Auvergne</p>
+            <nav class="footer-nav">
+                <a href="contact.html">Contact</a> |
+                <a href="partenaires.html">Partenaires</a> |
+                <a href="admin">Espace Admin (PHP)</a>
+            </nav>
+        </div>
+    </footer>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
